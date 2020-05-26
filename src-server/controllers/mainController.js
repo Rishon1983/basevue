@@ -1,5 +1,5 @@
 import {loginCheck} from '../models/users.js'
-import {logsAction, getLogsAction} from '../models/logs.js'
+import {logsAction, getLogsAction, getMySqlDataAction} from '../models/logs.js'
 
 const login = async (req, res) => {
     const data = req.body;
@@ -19,7 +19,7 @@ const login = async (req, res) => {
 
 const getLogs = async (req, res) => {
     const data = req.body;
-    const logs = await getLogsAction(data)
+    const logs = await getLogsAction(data);
 
     await res.json({
         ok: true,
@@ -30,8 +30,24 @@ const getLogs = async (req, res) => {
     });
 }
 
+const getMySqlData = async (req, res) => {
+    const data = req.body;
+    await getMySqlDataAction(data, (returnData) => {
+        res.json({
+            ok: true,
+            result: {
+                data: returnData
+            },
+            errMsg: ''
+        });
+    });
+
+
+}
+
 export default {
     login,
     logsAction,
-    getLogs
+    getLogs,
+    getMySqlData
 };

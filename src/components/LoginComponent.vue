@@ -7,6 +7,9 @@
                 <div class="button-container">
                     <button @click="getLogs" class="button">Get</button>
                 </div>
+                <div class="button-container">
+                    <button @click="getDataFromSql" class="button">Get from MySQL</button>
+                </div>
             </div>
             <h2>Logs</h2>
             <div class="output-container">
@@ -22,6 +25,23 @@
                     <div class="one-row">
                         <span class="text">Time:</span>
                         <span>{{new Date(log.CT)}}</span>
+                    </div>
+                </div>
+            </div>
+            <h2>Users</h2>
+            <div class="output-container">
+                <div v-for="log in mysqlData" :key="log.key" class="one-row-container">
+                    <div class="one-row">
+                        <span class="text">id:</span>
+                        <span>{{log.id}}</span>
+                    </div>
+                    <div class="one-row">
+                        <span class="text">name:</span>
+                        <span>{{log.name}}</span>
+                    </div>
+                    <div class="one-row">
+                        <span class="text">age:</span>
+                        <span>{{log.age}}</span>
                     </div>
                 </div>
             </div>
@@ -62,6 +82,7 @@
         computed: {
             ...mapState({
                 logsData: state => state.login.logsData,
+                mysqlData: state => state.login.mysqlData,
                 login: state => state.login.login,
                 userName: state => state.login.userName
             })
@@ -69,6 +90,7 @@
         methods: {
             ...mapActions('login', [
                 'getLogs',
+                'getDataFromSql',
                 'loginClient'
             ]),
             updateSettings() {
@@ -127,7 +149,7 @@
 
                     button {
                         height: 35px;
-                        width: 90px;
+                        /*width: 90px;*/
                         padding: 0 20px;
                         margin: 10px;
                         cursor: pointer;

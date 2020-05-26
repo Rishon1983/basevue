@@ -5,7 +5,8 @@ import axios from "axios";
 const state = {
     userName: '',
     login: false,
-    logsData: []
+    logsData: [],
+    mysqlData: []
 };
 
 // getters are functions.
@@ -38,6 +39,11 @@ const actions = {
             commit(data.action + 'Settings', res);
         })*!/
     },*/
+    getDataFromSql({commit}, data){
+        axios.post('http://localhost:80/api/v1/getMySqlData', data).then(res => {
+            commit('getMySqlData', res.data.result);
+        })
+    },
     getLogs({commit}, data) {
         axios.post('http://localhost:80/api/v1/getLogs', data).then(res => {
             commit('getLogs', res.data.result);
@@ -63,6 +69,9 @@ const mutations = {
             state.userName = res.login.username;
             state.login = true;
         }
+    },
+    getMySqlData(state, res){
+        state.mysqlData = res.data;
     }
 };
 
